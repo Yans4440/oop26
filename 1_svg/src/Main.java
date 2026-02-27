@@ -11,5 +11,10 @@ public class Main {
 
         Point p2 = p.translated(-30,-0.5F);
         System.out.println(p2);
+
+        Segment s = new Segment();
+        s.p = p;
+        s.q = p2;
+        System.out.println(s.lengh());
     }
 }
