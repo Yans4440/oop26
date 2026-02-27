@@ -5,6 +5,11 @@ public class Main {
         p.x = 50F;
         p.y = 70.5F;
 
-        System.out.println(p.toSVG());
+        System.out.println(p);
+        p.translate(20, -5);
+        System.out.println(p);
+
+        Point p2 = p.translated(-30,-0.5F);
+        System.out.println(p2);
     }
 }
