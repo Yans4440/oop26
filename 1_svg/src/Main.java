@@ -44,17 +44,8 @@ public class Main {
         segments[1] = s2;
         segments[2] = s3;
 
-        System.out.println(findMax(segments).p);
+        System.out.println(Segment.findMax(segments).p);
 
     }
-    public static Segment findMax(Segment[] segments){
-        Segment maxSeg =segments[0];
-        for (Segment s: segments){
-            if(s.lengh()>maxSeg.lengh()) {
-                maxSeg = s;
-            }
 
-        }
-        return maxSeg;
-    }
 }
