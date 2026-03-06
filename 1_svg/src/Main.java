@@ -22,11 +22,12 @@ public class Main {
         System.out.println(s1);
         p.setX(100);
         System.out.println(s1);*/
-        Point[] points = new Point[4];
+        Point[] points = new Point[5];
         points[0] = new Point(32.3F,15.6F);
         points[1] = new Point(42.0F,42.6F);
         points[2] = new Point(10.5F,32.6F);
         points[3] = new Point(0.3F,1.6F);
+        points[4] = new Point(20.3F,1.6F);
 
         Polygon p1 = new Polygon(points);
         Polygon p2 = new Polygon(new Point[]{
