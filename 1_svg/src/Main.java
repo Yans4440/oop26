@@ -40,6 +40,8 @@ public class Main {
         scene.addPolygn(p2);
         System.out.println(scene.toSVG());
 
+        System.out.println(p1.boundingBox());
+
 
     }
 
