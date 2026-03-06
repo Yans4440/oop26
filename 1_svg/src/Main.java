@@ -1,3 +1,4 @@
+import com.sun.source.doctree.EscapeTree;
 import com.sun.source.tree.NewArrayTree;
 
 import java.awt.*;
@@ -28,9 +29,16 @@ public class Main {
         points[3] = new Point(0.3F,1.6F);
 
         Polygon p1 = new Polygon(points);
-        System.out.println(p1);
-        points[0].setX(0);
-        System.out.println(p1);
+        Polygon p2 = new Polygon(new Point[]{
+                new Point(0, 0),
+                new Point(50, 240),
+                new Point(112,110)
+        });
+
+        SvgScene scene = new SvgScene();
+        scene.addPolygn(p1);
+        scene.addPolygn(p2);
+        System.out.println(scene.toSVG());
 
 
     }
