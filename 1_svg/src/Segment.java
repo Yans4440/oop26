@@ -11,7 +11,7 @@ public class Segment {
                 maxSeg = s;
             }
 
-        }
         return maxSeg;
     }
+
 }
