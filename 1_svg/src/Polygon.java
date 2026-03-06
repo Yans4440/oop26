@@ -5,7 +5,8 @@ import java.util.Locale;
 public class Polygon {
     private Point[] points;
     public Polygon(Point[] points){
-        this.points=points;
+        this.points= new Point[points.length];
+        System.arraycopy(points, 0, this.points, 0, points.length);
     }
     @Override
     public String toString(){
