@@ -10,13 +10,13 @@ public class Segment {
     public String toString(){
         return "Segment{p="+p+" q="+q+"}";
     }
-    public float lengh(){
+    public float length(){
         return (float) Math.hypot(p.getX()-q.getX(), p.getY()-q.getY());
     }
     public static Segment findMax(Segment[] segments){
         Segment maxSeg =segments[0];
         for (Segment s: segments){
-            if(s.lengh()>maxSeg.lengh())
+            if(s.length()>maxSeg.length())
                 maxSeg = s;
             }
 

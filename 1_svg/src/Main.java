@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args){
-        Point p = new Point();
+    /*    Point p = new Point();
 
 
         System.out.println(p);
@@ -20,7 +20,19 @@ public class Main {
         Segment s1 = new Segment(new Point(p),new Point(p2));
         System.out.println(s1);
         p.setX(100);
-        System.out.println(s1);
+        System.out.println(s1);*/
+        Point[] points = new Point[5];
+        points[0] = new Point(32.3F,15.6F);
+        points[1] = new Point(42.0F,42.6F);
+        points[2] = new Point(10.5F,32.6F);
+        points[3] = new Point(0.3F,1.6F);
+        points[4] = new Point(90.3F,72.6F);
+
+        Polygon p1 = new Polygon(points);
+        System.out.println(p1);
+        System.out.println(p1.toSVG());
+
+
 
     }
 
