@@ -12,6 +12,10 @@ public class Point {
         this.x = x;
         this.y = y;
     }
+    public Point(Point p){
+        this.x = p.x;
+        this.y = p.y;
+    }
     public float getX(){
         return x;
     }

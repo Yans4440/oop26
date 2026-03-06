@@ -17,6 +17,11 @@ public class Main {
         //p2.setY(20.5F);
         System.out.println(p2);
 
+        Segment s1 = new Segment(new Point(p),new Point(p2));
+        System.out.println(s1);
+        p.setX(100);
+        System.out.println(s1);
+
     }
 
 }
