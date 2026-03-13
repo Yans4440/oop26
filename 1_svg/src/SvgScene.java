@@ -6,7 +6,7 @@ public class SvgScene {
     private Shape[] shapes = new Shape[3];
     private int index = 0;
 
-    public void addPolygn(Shape p){
+    public void addShape(Shape p){
         shapes[index] = p;
         index++;
 

@@ -2,6 +2,7 @@ import com.sun.source.doctree.EscapeTree;
 import com.sun.source.tree.NewArrayTree;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -39,15 +40,21 @@ public class Main {
         });
 
         SvgScene scene = new SvgScene();
-        scene.addPolygn(p1);
-        scene.addPolygn(p2);
+        scene.addShape(p1);
+        scene.addShape(p2);
+        System.out.println(scene.toSVG());
 
-
-        scene.addPolygn(Polygon.square(new Segment(
+        scene.addShape(Polygon.square(new Segment(
 
                 new Point(130.0F, 100F),
                 new Point(100.0F, 140.0F)
         ), new Style("red","green",3.0)));
+
+        scene.addShape(new Elipes(
+                new Point(100.0F,100.0F),
+                20.0F, 50.0f, new Style("blue", "red",2.0F)
+        ));
+
         System.out.println(scene.toSVG());
         scene.save("out.svg");
         System.out.println(p1.boundingBox());
