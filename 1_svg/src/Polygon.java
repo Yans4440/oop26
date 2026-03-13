@@ -51,4 +51,17 @@ public class Polygon {
         return new BoundingBox(minX,minY,maxX-minX,maxY-minY);
     }
 
+    public static Polygon square(Segment segment,Style style){
+        Segment perp = segment.perpendicular();
+
+        Point[] pointSquare = new Point[4];
+        pointSquare[0]=segment.getP();
+        pointSquare[1]=perp.getP();
+        pointSquare[2]=segment.getQ();
+        pointSquare[3]=perp.getQ();
+
+        return new Polygon(pointSquare,style);
+
+    }
+
 }

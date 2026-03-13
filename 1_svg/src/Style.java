@@ -14,6 +14,6 @@ public class Style {
     }
     public String toSVG(){
         return String.format(Locale.ENGLISH,
-                "<fill:%s;stroke:%s;stroke-width:%f>",fillColor,strokeColor,strokeWidth);
+                "fill:%s;stroke:%s;stroke-width:%f",fillColor,strokeColor,strokeWidth);
     }
 }

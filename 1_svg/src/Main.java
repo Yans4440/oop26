@@ -41,6 +41,13 @@ public class Main {
         SvgScene scene = new SvgScene();
         scene.addPolygn(p1);
         scene.addPolygn(p2);
+
+
+        scene.addPolygn(Polygon.square(new Segment(
+
+                new Point(130.0F, 100F),
+                new Point(100.0F, 140.0F)
+        ), new Style("red","green",3.0)));
         System.out.println(scene.toSVG());
         scene.save("out.svg");
         System.out.println(p1.boundingBox());
