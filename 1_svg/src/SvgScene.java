@@ -3,11 +3,11 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class SvgScene {
-    private Polygon[] polygons = new Polygon[3];
+    private Shape[] shapes = new Shape[3];
     private int index = 0;
 
-    public void addPolygn(Polygon p){
-        polygons[index] = p;
+    public void addPolygn(Shape p){
+        shapes[index] = p;
         index++;
 
         if(index==3){
@@ -15,8 +15,9 @@ public class SvgScene {
         }
     }
     public String toSVG(){
+
         StringBuilder polygonsString = new StringBuilder();
-        for(Polygon p: polygons){
+        for(Shape p: shapes){
             if(p!=null){
                 polygonsString.append(p.toSVG()).append("\n");
             }
