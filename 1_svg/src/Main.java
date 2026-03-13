@@ -2,9 +2,11 @@ import com.sun.source.doctree.EscapeTree;
 import com.sun.source.tree.NewArrayTree;
 
 import java.awt.*;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args)throws IOException {
     /*    Point p = new Point();
 
 
@@ -40,7 +42,7 @@ public class Main {
         scene.addPolygn(p1);
         scene.addPolygn(p2);
         System.out.println(scene.toSVG());
-
+        scene.save("out.svg");
         System.out.println(p1.boundingBox());
 
 

@@ -1,17 +1,24 @@
 import java.lang.reflect.Array;
+import java.nio.channels.Pipe;
 import java.util.Arrays;
 import java.util.Locale;
 
 public class Polygon {
     private Point[] points;
-    public Polygon(Point[] points){
+    private Style style;
+    public Polygon(Point[] points, Style style){
         this.points= new Point[points.length];
+        this.style=style;
         for(int i = 0; i<points.length; i++){
             this.points[i] = new Point(points[i]);
 
         }
 
     }
+    public Polygon(Point[] points){
+        this(points, new Style("transparent","black",1.0));
+    }
+
     public Polygon(Polygon p){
         this(p.points);
     }
@@ -26,7 +33,7 @@ public class Polygon {
             pointstring += point.getX()+","+point.getY()+" ";
         }
         return String.format(Locale.ENGLISH,
-                "<polygon points=\"%s\" style=\"fill:lime;stroke:purple;stroke-width:3\" />",pointstring);
+                "<polygon points=\"%s\" style=\"%s\"/>",pointstring,style.toSVG());
     }
     public BoundingBox boundingBox(){
         if(points.length == 0)return new BoundingBox(0, 0, 0 , 0);
