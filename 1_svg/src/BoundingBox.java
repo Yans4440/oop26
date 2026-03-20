@@ -1,3 +1,3 @@
-public record BoundingBox(float x, float y, float width, float height) {
-
+public record BoundingBox(double x, double y,
+                          double width, double height) {
 }

@@ -1,65 +1,35 @@
-import com.sun.source.doctree.EscapeTree;
-import com.sun.source.tree.NewArrayTree;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args)throws IOException {
-    /*    Point p = new Point();
-
-
-        System.out.println(p);
-        p.setX(5);
-        p.setY(70.5F);
-        System.out.println(p);
-
-        Point p2 = new Point(2.5F, 12.F);
-        //p2.setX(2);
-        //p2.setY(20.5F);
-        System.out.println(p2);
-
-        Segment s1 = new Segment(new Point(p),new Point(p2));
-        System.out.println(s1);
-        p.setX(100);
-        System.out.println(s1);*/
-        Point[] points = new Point[5];
-        points[0] = new Point(32.3F,15.6F);
-        points[1] = new Point(42.0F,42.6F);
-        points[2] = new Point(10.5F,32.6F);
-        points[3] = new Point(0.3F,1.6F);
-        points[4] = new Point(20.3F,1.6F);
-
-        Polygon p1 = new Polygon(points);
-        Polygon p2 = new Polygon(new Point[]{
-                new Point(0, 0),
-                new Point(50, 240),
-                new Point(112,110)
+    public static void main(String[] args) throws IOException {
+        Polygon triangle = new Polygon(new Vec2[]{
+                new Vec2(0, 0),
+                new Vec2(300, 0),
+                new Vec2(150, 250)
         });
 
+        Polygon rectangle = new Polygon(new Vec2[]{
+                new Vec2(350, 0),
+                new Vec2(750, 0),
+                new Vec2(750, 200),
+                new Vec2(350, 200)
+        });
+
+        Polygon pentagon = new Polygon(new Vec2[]{
+                new Vec2(0, 260),
+                new Vec2(100, 460),
+                new Vec2(300, 560),
+                new Vec2(500, 460),
+                new Vec2(600, 260)
+        });
+
+        Ellipse ellipse = new Ellipse(new Vec2(500, 700), 400, 100);
+
         SvgScene scene = new SvgScene();
-        scene.addShape(p1);
-        scene.addShape(p2);
-        System.out.println(scene.toSVG());
-
-        scene.addShape(Polygon.square(new Segment(
-
-                new Point(130.0F, 100F),
-                new Point(100.0F, 140.0F)
-        ), new Style("red","green",3.0)));
-
-        scene.addShape(new Elipes(
-                new Point(100.0F,100.0F),
-                20.0F, 50.0f, new Style("blue", "red",2.0F)
-        ));
-
-        System.out.println(scene.toSVG());
-        scene.save("out.svg");
-        System.out.println(p1.boundingBox());
-
-
+        scene.addShape(triangle);
+        scene.addShape(rectangle);
+        scene.addShape(pentagon);
+        scene.addShape(ellipse);
+        scene.save("result.svg");
     }
-
 }

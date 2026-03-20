@@ -1,68 +1,36 @@
-import java.lang.reflect.Array;
-import java.nio.channels.Pipe;
-import java.util.Arrays;
 import java.util.Locale;
 
-public class Polygon extends Shape{
-    private Point[] points;
-    //private Style style;
-    public Polygon(Point[] points, Style style){
-        super(style);
-        this.points= new Point[points.length];
-        this.style=style;
-        for(int i = 0; i<points.length; i++){
-            this.points[i] = new Point(points[i]);
-
+public class Polygon implements Shape{
+    private Vec2[] points;
+    public Polygon(Vec2[] points) {
+        this.points = new Vec2[points.length];
+        for(int i =0; i < points.length; i++)
+        {
+            this.points[i] = new Vec2(points[i]);
         }
-
-    }
-    public Polygon(Point[] points){
-        this(points, new Style("transparent","black",1.0));
     }
 
-    public Polygon(Polygon p){
-        this(p.points);
-    }
     @Override
-    public String toString(){
-        return "Polygon{Points="+ Arrays.toString(points)+"}";
-    };
-    //<polygon points="100,10 150,190 50,190" style="fill:lime;stroke:purple;stroke-width:3" />
-    public String toSVG(){
-        String pointstring =  "";
-        for (Point point : points){
-            pointstring += point.getX()+","+point.getY()+" ";
+    public BoundingBox boundingBox() {
+        double xMin = this.points[0].x();
+        double xMax = this.points[0].x();
+        double yMin = this.points[0].y();
+        double yMax = this.points[0].y();
+
+        for (int i = 1; i < points.length; i++) {
+            xMin = Math.min(xMin, points[i].x());
+            xMax = Math.max(xMax, points[i].x());
+            yMin = Math.min(yMin, points[i].y());
+            yMax = Math.max(yMax, points[i].y());
         }
-        return String.format(Locale.ENGLISH,
-                "<polygon points=\"%s\" style=\"%s\"/>",pointstring,style.toSVG());
+        return new BoundingBox(xMin, yMin, xMax - xMin, yMax - yMin);
     }
-    public BoundingBox boundingBox(){
-        if(points.length == 0)return new BoundingBox(0, 0, 0 , 0);
-        float minX =points[0].getX();
-        float maxX =points[0].getX();
-        float minY =points[0].getY();
-        float maxY =points[0].getY();
-        for(Point p : points){
-            if(p.getX()<minX) minX = p.getX();
-            if(p.getX()<maxX) maxX = p.getX();
-            if(p.getY()<minY) minY = p.getY();
-            if(p.getY()<maxY) maxY = p.getY();
 
+    public String toSvg()    {
+        String pointsString = "";
+        for(Vec2 point : points) {
+            pointsString += point.x() + "," + point.y() + " ";
         }
-        return new BoundingBox(minX,minY,maxX-minX,maxY-minY);
+        return String.format(Locale.ENGLISH, "<polygon points=\"%s\" />", pointsString);
     }
-
-    public static Polygon square(Segment segment,Style style){
-        Segment perp = segment.perpendicular();
-
-        Point[] pointSquare = new Point[4];
-        pointSquare[0]=segment.getP();
-        pointSquare[1]=perp.getP();
-        pointSquare[2]=segment.getQ();
-        pointSquare[3]=perp.getQ();
-
-        return new Polygon(pointSquare,style);
-
-    }
-
 }
