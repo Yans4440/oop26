@@ -1,12 +1,13 @@
 import java.io.IOException;
+import java.util.concurrent.TransferQueue;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Polygon triangle = new Polygon(new Vec2[]{
+        TransformationDecorator triangle = new TransformationDecorator(new Polygon(new Vec2[]{
                 new Vec2(0, 0),
                 new Vec2(300, 0),
                 new Vec2(150, 250)
-        });
+        }), new Vec2(23,23), 25, new Vec2(2,3));
 
         Shape rectangle = new SolidFillShapeDecoratr(new Polygon(new Vec2[]{
                 new Vec2(350, 0),
