@@ -8,20 +8,20 @@ public class Main {
                 new Vec2(150, 250)
         });
 
-        Polygon rectangle = new Polygon(new Vec2[]{
+        Shape rectangle = new SolidFillShapeDecoratr(new Polygon(new Vec2[]{
                 new Vec2(350, 0),
                 new Vec2(750, 0),
                 new Vec2(750, 200),
                 new Vec2(350, 200)
-        });
+        }),"red");
 
-        Polygon pentagon = new Polygon(new Vec2[]{
+        Polygon pentagon = new SolidPolygon(new Vec2[]{
                 new Vec2(0, 260),
                 new Vec2(100, 460),
                 new Vec2(300, 560),
                 new Vec2(500, 460),
                 new Vec2(600, 260)
-        });
+        }, "green");
 
         Ellipse ellipse = new Ellipse(new Vec2(500, 700), 400, 100);
 
