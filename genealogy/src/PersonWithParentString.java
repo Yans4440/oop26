@@ -24,7 +24,9 @@ public class PersonWithParentString {
     public static void connectRelatives(Map<String, PersonWithParentString> peopleMap){
         for (PersonWithParentString child: peopleMap.values()){
             for(String parentString : child.parents){
-                peopleMap.get(parentString).person.adopt(child.person);
+                if(!parentString.isEmpty()) {
+                    peopleMap.get(parentString).person.adopt(child.person);
+                }
             }
         }
     }

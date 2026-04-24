@@ -1,18 +1,18 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.Buffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.zip.InflaterOutputStream;
 
-public class Person implements Comparable{
+public class Person implements Comparable<Person>, Serializable {
     private String firstName;
     private String lastName;
     private LocalDate birthday;
     private Set<Person> children = new HashSet<>();
     private LocalDate death;
-    public Person getYoungestChild(){
+
+    public Person getYoungestChild() {
 //        Iterator<Person> iter = this.children.iterator();
 //        Person now = iter.next();
 //        Person youngest = now;
@@ -28,36 +28,40 @@ public class Person implements Comparable{
 //            }
 //
 //        }
-        if( this.children.isEmpty())return null;
+        if (this.children.isEmpty()) return null;
         Person youngest = children.iterator().next();
-        for(Person person : children){
-            if(youngest.compareTo(person)<0){
-                youngest=person;
+        for (Person person : children) {
+            if (youngest.compareTo(person) < 0) {
+                youngest = person;
             }
         }
         return youngest;
     }
 
-    public Person(String firstName, String lastName, LocalDate birthday, LocalDate death) throws NegativeLifespanException{
+    public Person(String firstName, String lastName, LocalDate birthday, LocalDate death) throws NegativeLifespanException {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.death = death;
 
-        if(this.death != null && this.birthday.isAfter(this.death)){
+        if (this.death != null && this.birthday.isAfter(this.death)) {
             throw new NegativeLifespanException(this);
         }
     }
 
 
-    public Person(String firstName, String lastName, LocalDate birthday) throws NegativeLifespanException{
-        this(firstName, lastName,birthday,null);
+    public Person(String firstName, String lastName, LocalDate birthday) throws NegativeLifespanException {
+        this(firstName, lastName, birthday, null);
     }
-    public boolean adopt(Person child){
-        if(child == this){return false;}
+
+    public boolean adopt(Person child) {
+        if (child == this) {
+            return false;
+        }
         return children.add(child);
     }
-    public List<Person> getChildren(){
+
+    public List<Person> getChildren() {
 //        List<Person> result = new ArrayList<>();
 //        result.addAll(children);
 //
@@ -65,8 +69,9 @@ public class Person implements Comparable{
 //        return result;
         return children.stream().sorted().toList();
     }
+
     public static Person fromCsvLine(String line) throws NegativeLifespanException {
-        String[] columns = line.split(",",-1);
+        String[] columns = line.split(",", -1);
         String fullName = columns[0];
         String[] name = fullName.split(" ");
         String fname = name[0];
@@ -74,13 +79,14 @@ public class Person implements Comparable{
         String birth = columns[1];
         String death = columns[2];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.y");
-        LocalDate birthdate = LocalDate.parse(birth,formatter);
+        LocalDate birthdate = LocalDate.parse(birth, formatter);
         LocalDate deathdate = null;
-        if(!death.isEmpty()){
-            deathdate = LocalDate.parse(death,formatter);
+        if (!death.isEmpty()) {
+            deathdate = LocalDate.parse(death, formatter);
         }
-        return new Person(fname,lname, birthdate, deathdate);
+        return new Person(fname, lname, birthdate, deathdate);
     }
+
     public static List<Person> fromCsv(String path) throws IOException {
         //List<Person> people = new ArrayList<>();
         Map<String, PersonWithParentString> people = new HashMap<>();
@@ -97,34 +103,50 @@ public class Person implements Comparable{
                 System.err.println(e.getMessage());
             }
         }
-            file.close();
+        file.close();
         PersonWithParentString.connectRelatives(people);
         return PersonWithParentString.unpackMap(people);
 
     }
-    public String negativeLifespanExceptionMessege(){
+
+    public String negativeLifespanExceptionMessege() {
         return String.format("Osoba %s %s ma dae smierci %s wczesniejsza niz data urodzenia %s",
-                this.firstName,this.lastName,this.death,this.birthday);
+                this.firstName, this.lastName, this.death, this.birthday);
     }
 
-    public String name(){
-        return String.format("%s %s",firstName,lastName);
+    public String name() {
+        return String.format("%s %s", firstName, lastName);
     }
-    public int compareTo(Person other){
+
+    public static void toBinaryFile(List<Person> people, String path) throws IOException {
+        FileOutputStream fos = new FileOutputStream(path);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(people);
+
+        oos.close();
+
+    }
+
+    public static List<Person> fromBinaryFile(String path) throws IOException{
+        FileInputStream fis = new FileInputStream(path);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        List<Person> people = (ArrayList<Person>) ois.readObject();
+        ois.close();
+        return people;
+
+    }
+    @Override
+    public int compareTo(Person other) {
         return this.birthday.compareTo(other.birthday);
     }
-    @Override
-    public String toString() {
-        return "Person{"+
-                " firstName='"+firstName+"'"+
-                " lastName='"+lastName+"'"+
-                " birthday="+birthday+
-                " children="+children+
-                "death ="+death+"}";
-    }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public String toString() {
+        return "Person{" +
+                " firstName='" + firstName + "'" +
+                " lastName='" + lastName + "'" +
+                " birthday=" + birthday +
+                " children=" + children +
+                "death =" + death + "}";
     }
 }
