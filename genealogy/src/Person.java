@@ -127,7 +127,7 @@ public class Person implements Comparable<Person>, Serializable {
 
     }
 
-    public static List<Person> fromBinaryFile(String path) throws IOException{
+    public static List<Person> fromBinaryFile(String path) throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(path);
         ObjectInputStream ois = new ObjectInputStream(fis);
         List<Person> people = (ArrayList<Person>) ois.readObject();
