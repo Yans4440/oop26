@@ -3,6 +3,7 @@ import java.nio.Buffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.InflaterOutputStream;
 
 public class Person implements Comparable<Person>, Serializable {
@@ -11,6 +12,8 @@ public class Person implements Comparable<Person>, Serializable {
     private LocalDate birthday;
     private Set<Person> children = new HashSet<>();
     private LocalDate death;
+    private Set<Person> parents = new HashSet<>();
+
 
     public Person getYoungestChild() {
 //        Iterator<Person> iter = this.children.iterator();
@@ -62,8 +65,8 @@ public class Person implements Comparable<Person>, Serializable {
     }
 
     public List<Person> getChildren() {
-//        List<Person> result = new ArrayList<>();
-//        result.addAll(children);
+ //       List<Person> result = new ArrayList<>();
+ //       result.addAll(children);
 //
 //        result.sort(Person::compareTo);
 //        return result;
@@ -135,6 +138,39 @@ public class Person implements Comparable<Person>, Serializable {
         return people;
 
     }
+
+    public String toPlantUml(){
+        StringBuilder sb= new StringBuilder();
+        String myId = name().replace(" ", "_");
+        sb.append(String.format("object \"%s\" as %s \n", name(), myId));
+
+        for(Person p: parents){
+            String parentId = p.name()
+                            .replace(" ","_");
+            sb.append(parentId).append(" <|--").append(myId).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public static String generateTree(List<Person> people){
+        Set<Person> objects = new HashSet<>();
+        for(Person person : people){
+            objects.add(person);
+            objects.addAll(person.children);
+        }
+        String objectsString = objects.stream()
+                .map(person -> String.format("object \"%s\"",person.name()))
+                .collect(Collectors.joining("\n"));
+
+        String relationString = objects.stream()
+                .flatMap(parent -> parent.getChildren().stream()
+                        .map(child -> String.format("\"s\"<|--\"s\"",parent.name(), child.name()))
+                ).collect(Collectors.joining("\n"));
+
+        return String.format("@startuml\n%s\n%s\n@enduml", objectsString, relationString);
+    }
+
     @Override
     public int compareTo(Person other) {
         return this.birthday.compareTo(other.birthday);
