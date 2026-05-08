@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.Buffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.InflaterOutputStream;
@@ -161,6 +162,18 @@ public class Person implements Comparable<Person>, Serializable {
 
     public static List<Person> sorted(List<Person>people){
         return people.stream().sorted(Comparator.comparing(person -> person.birthday)).toList();
+    }
+
+    public long lifespan(){
+        if(death==null){
+            return -1;
+        }else{
+            return ChronoUnit.DAYS.between(birthday, death);
+        }
+    }
+
+    public static List<Person> getDeceasedByLifespan(List<Person> people){
+        return people.stream().filter(person -> person.death != null).sorted(Comparator.comparing(Person::lifespan).reversed()).toList();
     }
 
     public static String generateTree(List<Person> people){
