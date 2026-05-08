@@ -8,9 +8,11 @@ public class Main {
        try {
             List<Person> people = Person.fromCsv("family.csv");
             PlantUmlRunner.setJarPath("/home/student/Pobrane/plantuml-java8-SNAPSHOT.jar");
-            PlantUmlRunner.generateTree(umlData, "output", "test");
+            //PlantUmlRunner.generateTree(umlData, "output", "test");
             //Person.toBinaryFile(people,"data.bin");
             //List<Person> people2 = Person.fromBinaryFile("data.bin");
+            List<Person> filtered = Person.filterPersonbySubstring(people, "ska");
+            filtered.stream().map(Person::name).forEach(System.out::println);
             System.out.println(people);
         } catch (IOException e){
             System.err.println("Blad dostepu do pliku" + e.getMessage());
