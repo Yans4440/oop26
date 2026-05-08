@@ -159,6 +159,10 @@ public class Person implements Comparable<Person>, Serializable {
                 .collect(Collectors.toList());
     }
 
+    public static List<Person> sorted(List<Person>people){
+        return people.stream().sorted(Comparator.comparing(person -> person.birthday)).toList();
+    }
+
     public static String generateTree(List<Person> people){
         Set<Person> objects = new HashSet<>();
         for(Person person : people){
