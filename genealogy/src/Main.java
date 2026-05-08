@@ -18,9 +18,11 @@ public class Main {
             //List<Person> sorted = Person.filterPersonbySubstring(people, "ska");
             //sorted.stream().map(Person::name).forEach(System.out::println);
 
-            List<Person> sortedDead = Person.getDeceasedByLifespan(people);
-            sortedDead.stream().map(Person::name).forEach(System.out::println);
-            //System.out.println(people);
+            //List<Person> sortedDead = Person.getDeceasedByLifespan(people);
+            //sortedDead.stream().map(Person::name).forEach(System.out::println);
+
+            Person p = Person.getOldestLiving(people);
+            System.out.println(p);
         } catch (IOException e){
             System.err.println("Blad dostepu do pliku" + e.getMessage());
         }

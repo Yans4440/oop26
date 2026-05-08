@@ -1,3 +1,5 @@
+import jdk.jshell.spi.SPIResolutionException;
+
 import java.io.*;
 import java.nio.Buffer;
 import java.time.LocalDate;
@@ -170,6 +172,9 @@ public class Person implements Comparable<Person>, Serializable {
         }else{
             return ChronoUnit.DAYS.between(birthday, death);
         }
+    }
+    public static Person getOldestLiving(List<Person> people){
+        return people.stream().filter(person -> person.death==null).min(Comparator.comparing(person -> person.birthday)).orElse(null);
     }
 
     public static List<Person> getDeceasedByLifespan(List<Person> people){
