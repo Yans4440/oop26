@@ -1,11 +1,11 @@
-import jdk.jshell.spi.SPIResolutionException;
-
 import java.io.*;
 import java.nio.Buffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.zip.InflaterOutputStream;
 
@@ -68,8 +68,8 @@ public class Person implements Comparable<Person>, Serializable {
     }
 
     public List<Person> getChildren() {
- //       List<Person> result = new ArrayList<>();
- //       result.addAll(children);
+        //       List<Person> result = new ArrayList<>();
+        //       result.addAll(children);
 //
 //        result.sort(Person::compareTo);
 //        return result;
@@ -95,14 +95,14 @@ public class Person implements Comparable<Person>, Serializable {
 
     public static List<Person> fromCsv(String path) throws IOException {
         //List<Person> people = new ArrayList<>();
-        Map<String, PersonWithParentString> people = new HashMap<>();
+        Map<String, PersonWithParentStrings> people = new HashMap<>();
         BufferedReader file = new BufferedReader(new FileReader(path));
         file.readLine();
         String line;
         while ((line = file.readLine()) != null) {
             try {
                 //Person newPerson = fromCsvLine(line);
-                PersonWithParentString newPerson = PersonWithParentString.fromCsvLine(line);
+                PersonWithParentStrings newPerson = PersonWithParentStrings.fromCsvLine(line);
                 people.put(newPerson.name(), newPerson);
 
             } catch (NegativeLifespanException e) {
@@ -110,8 +110,8 @@ public class Person implements Comparable<Person>, Serializable {
             }
         }
         file.close();
-        PersonWithParentString.connectRelatives(people);
-        return PersonWithParentString.unpackMap(people);
+        PersonWithParentStrings.connectRelatives(people);
+        return PersonWithParentStrings.unpackMap(people);
 
     }
 
@@ -149,7 +149,7 @@ public class Person implements Comparable<Person>, Serializable {
 
         for(Person p: parents){
             String parentId = p.name()
-                            .replace(" ","_");
+                    .replace(" ","_");
             sb.append(parentId).append(" <|--").append(myId).append("\n");
         }
 
@@ -158,7 +158,7 @@ public class Person implements Comparable<Person>, Serializable {
 
     public static List<Person> filterPersonbySubstring(List<Person> people, String sunstring){
         return people.stream()
-            .filter(person-> person.name().contains(sunstring))
+                .filter(person-> person.name().contains(sunstring))
                 .collect(Collectors.toList());
     }
 
@@ -173,30 +173,44 @@ public class Person implements Comparable<Person>, Serializable {
             return ChronoUnit.DAYS.between(birthday, death);
         }
     }
-    public static Person getOldestLiving(List<Person> people){
-        return people.stream().filter(person -> person.death==null).min(Comparator.comparing(person -> person.birthday)).orElse(null);
-    }
 
     public static List<Person> getDeceasedByLifespan(List<Person> people){
         return people.stream().filter(person -> person.death != null).sorted(Comparator.comparing(Person::lifespan).reversed()).toList();
     }
 
-    public static String generateTree(List<Person> people){
+    public static Person getOldestLiving(List<Person> people){
+        return people.stream()
+                .filter(person -> person.death == null)
+                .min(Comparator.comparing(person -> person.birthday))
+                .orElse(null);
+    }
+
+    public static String generateTree(List<Person> people, Function<String, String> func, Predicate<Person> condition){
         Set<Person> objects = new HashSet<>();
         for(Person person : people){
             objects.add(person);
             objects.addAll(person.children);
         }
-        String objectsString = objects.stream()
+        Map<Boolean, List<Person>> passOrFail = people.stream()
+                .collect(Collectors.partitioningBy(condition));
+
+        String deadString = passOrFail.get(false).stream()
                 .map(person -> String.format("object \"%s\"",person.name()))
+
                 .collect(Collectors.joining("\n"));
+
+        String livingString = passOrFail.get(true).stream()
+                .map(person -> String.format("object \"%s\"",person.name()))
+                .map(func)
+                .collect(Collectors.joining("\n"));
+
 
         String relationString = objects.stream()
                 .flatMap(parent -> parent.getChildren().stream()
                         .map(child -> String.format("\"s\"<|--\"s\"",parent.name(), child.name()))
                 ).collect(Collectors.joining("\n"));
 
-        return String.format("@startuml\n%s\n%s\n@enduml", objectsString, relationString);
+        return String.format("@startuml\n%s\n%s\n%s\n@enduml", deadString, livingString, relationString);
     }
 
     @Override

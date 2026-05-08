@@ -18,10 +18,12 @@ public class PlantUmlRunner {
             writer.close();
 
             ProcessBuilder builder = new ProcessBuilder("java", "-jar", jarPath,file.getPath());
-            builder.start();
-        }catch (IOException e){
+            builder.inheritIO();
+            Process process = builder.start();
+            process.waitFor();
+        }catch (Exception e){
             throw new RuntimeException(e);
-            }
+        }
 
     }
 }
