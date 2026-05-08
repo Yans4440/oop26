@@ -207,7 +207,7 @@ public class Person implements Comparable<Person>, Serializable {
 
         String relationString = objects.stream()
                 .flatMap(parent -> parent.getChildren().stream()
-                        .map(child -> String.format("\"s\"<|--\"s\"",parent.name(), child.name()))
+                        .map(child -> String.format("\"%s\"<|--\"%s\"",parent.name(), child.name()))
                 ).collect(Collectors.joining("\n"));
 
         return String.format("@startuml\n%s\n%s\n%s\n@enduml", deadString, livingString, relationString);
