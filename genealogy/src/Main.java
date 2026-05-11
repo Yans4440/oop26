@@ -5,7 +5,18 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        try {
+        CustomList<String> list = new CustomList<>();
+        list.addLast("ala");
+        list.addLast("ma");
+        list.addLast("kota");
+
+        list.addFirst("Mała");
+
+        System.out.println(list.getFirst());
+        System.out.println(list.removeLast());
+        System.out.println(list.removeLast());
+
+ /*       try {
             List<Person> people = Person.fromCsv("family.csv");
 
             List<Person> sortedDead = Person.getDeceasedByLifespan(people);
@@ -37,7 +48,7 @@ public class Main {
 //                "Alice -> Bob: Another authentication Request\n" +
 //                "Alice <-- Bob: Another authentication Response\n" +
 //                "@enduml";
-        //PlantUmlRunner.generate(, "output", "test");
+        //PlantUmlRunner.generate(, "output", "test");*/
 
     }
 }
