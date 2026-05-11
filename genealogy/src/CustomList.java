@@ -1,6 +1,6 @@
 import java.util.NoSuchElementException;
 
-public class CustomList<T> {
+public class CustomList<T> implements CustomListjuu<T> {
     private Node<T> head = null;
     private Node<T> tail = null;
 
@@ -49,11 +49,11 @@ public class CustomList<T> {
         return current.value;
     }
     public T removeLast(){
-        if(tail==null){
+        if(head==null){
             throw new NoSuchElementException();
         }
         Node<T> current = head;
-        if(head == null){
+        if(head == tail){
             head = null;
             tail = null;
             return current.value;
@@ -67,4 +67,39 @@ public class CustomList<T> {
             return result;
         }
     }
+    @Override
+    public T get(int index){
+        if(index==0){
+            if(head==null)return null;
+            return head.value;
+        }else{
+            Node<T> current = head;
+            for(int j = 0; j<index;j++){
+                if(current.next == null) return null;
+                current = current.next;
+            }
+            return current.value;
+        }
+    }
+    @Override
+    public int size(){
+        if(head==null){
+            return 0;
+        }else{
+            Node<T> current = head;
+            int i = 1;
+            while (current.next != null){
+                current = current.next;
+                i++;
+            }
+            return i;
+        }
+    }
+
+    @Override
+    public boolean add(T t){
+        addLast(t);
+        return true;
+    }
 }
+
