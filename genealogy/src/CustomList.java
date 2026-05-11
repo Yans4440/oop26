@@ -1,6 +1,9 @@
+import java.util.AbstractList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
-public class CustomList<T> implements CustomListjuu<T> {
+public class CustomList<T> extends AbstractList<T>{
     private Node<T> head = null;
     private Node<T> tail = null;
 
@@ -13,6 +16,7 @@ public class CustomList<T> implements CustomListjuu<T> {
         }
         tail=current;
     }
+
     public T getLast(){
         try{
             return tail.value;
@@ -100,6 +104,32 @@ public class CustomList<T> implements CustomListjuu<T> {
     public boolean add(T t){
         addLast(t);
         return true;
+    }
+
+    @Override
+    public Iterator<T> iterator(){
+        return new Iterator<T>() {
+            private Node<T> current = head;
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                T result = current.value;
+                current=current.next;
+                return result;
+            }
+        };
+    }
+    @Override
+    public Stream<T> stream(){
+        Stream.Builder<T> builder = Stream.builder();
+        for(T value : this){
+            builder.accept(value);
+        }
+        return builder.build();
     }
 }
 

@@ -15,6 +15,14 @@ public class Main {
         System.out.println("Element pod indexem 1: " + list.get(1));
         System.out.println("Rozmiar listy jest: " + list.size());
 
+        for(String s : list){
+            System.out.println(s);
+        }
+        list.stream()
+            .sorted().forEach(System.out::println);
+
+
+
         while (list.size()>0){
             System.out.println("Usuwam: "+list.removeLast());
         }
