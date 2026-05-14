@@ -1,4 +1,4 @@
-public record Candidate(String FirstName, String SecondName, String LastName) {
+public record Candidate(String name, String lastName) {
 
     public Candidate(String line) {
     }

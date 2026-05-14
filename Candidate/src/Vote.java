@@ -66,12 +66,12 @@ Ustawi pole location nowego obiektu jako pustą listę
         return new Vote(summary, new ArrayList<>());
     }
 
-    //Krok 8 votes(), która zwraca liczbę głosów zapisanych w obiekcie klasy Vote
+    //Krok 9 votes(), która zwraca liczbę głosów zapisanych w obiekcie klasy Vote
     public int votes(Candidate candidate){
         return votesForCandidate.get(candidate);
     }
 
-    //Krok 8 percentage(), która zwraca procentowy udział głosów oddanych na niego względem łącznej liczby głosów
+    //Krok 9 percentage(), która zwraca procentowy udział głosów oddanych na niego względem łącznej liczby głosów
     //zapisanych w obiekcie Vote
     public double percentage(Candidate candidate){
         int candidateVotes = votes(candidate);
@@ -83,5 +83,24 @@ Ustawi pole location nowego obiektu jako pustą listę
         return (double) candidateVotes * 100/totalVotes;
     }
 
+    //Krok 10 W klasie Vote nadpisz metodę toString(), tak aby zwracała napis zawierający w kolejnych liniach imiona i
+    //nazwiska kandydatów wraz z ich procentowymi wynikami. Kolejność może być dowolna. Następnie przetestuj
+    //wywołanie tej metody w metodzie main()
+    //11 Wyświetlenie napisu z poprzedniego kroku wymaga wielokrotnego wykorzystania sumy wszystkich głosów.
+    //Zagwarantuj, że suma ta będzie obliczana tylko raz
+    @Override
+    public String toString(){
+        String result = "";
 
+        int totalVotes = 0;
+        for(Integer value : votesForCandidate.values()){
+            totalVotes += value;
+        }
+
+        for(Candidate candidate : votesForCandidate.keySet()){
+            double percentage = (double) votesForCandidate.get(candidate) * 100 / totalVotes;
+            result += candidate.name() + " - " + percentage + "%\n";
+        }
+        return  result;
+    }
 }
