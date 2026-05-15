@@ -1,6 +1,5 @@
-import java.util.AbstractList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class CustomList<T> extends AbstractList<T>{
@@ -130,6 +129,35 @@ public class CustomList<T> extends AbstractList<T>{
             builder.accept(value);
         }
         return builder.build();
+    }
+
+    public static <T> List<T> filterByExactClass(List<T> list, Class<?> clazz) {
+              List<T> result = new ArrayList<>();
+            for (T item : list) {
+                if (item != null && item.getClass().equals(clazz)) {
+                    result.add(item);
+                }
+            }
+            return result;
+    }
+
+    public static <T> List<T> filterByHierarchy(List<T> list, Class<?> clazz) {
+        List<T> result = new ArrayList<>();
+        for (T item : list) {
+            if (clazz.isInstance(item)) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
+
+
+    public static <T extends Comparable<T>> long countInRange(List<T> list, T min, T max) {
+        Predicate<T> isInRange = x -> x.compareTo(min) > 0 && x.compareTo(max) < 0;
+
+        return list.stream()
+               .filter(isInRange)
+               .count();
     }
 }
 
