@@ -9,6 +9,10 @@ public class Vote {
      */
     private Map<Candidate, Integer> votesForCandidate;
     private List<String> location;
+    //Akcesor do listy location
+    public List<String> getLocation(){
+        return location;
+    }
 
     public Vote(Map<Candidate, Integer> voteForCandidate, List<String> location){
         this.location = location;
@@ -82,6 +86,41 @@ Ustawi pole location nowego obiektu jako pustą listę
         }
         return (double) candidateVotes * 100/totalVotes;
     }
+
+
+    //Krok 16
+    //W klasie Vote zaimplementuj publiczną, statyczną metodę filterByLocation(), która przyjmuje dwie listy jako
+    //argumenty:
+    //listę obiektów klasy Vote,
+    //listę napisów opisujących lokalizację.
+    //Lista lokalizacji może zawierać:
+    //jeden element - województwo (np. "lubelskie") - zwróci wszystkie obiekty z województwa,
+    //dwa elementy - województwo i powiat (np. "lubelskie", "Lublin") - zwróci wszystkie obiekty z powiatu,
+    //trzy elementy - województwo, powiat i gmina (np. "lubelskie", "Lublin", "m. Lublin") - zwróci dokładnie
+    //jeden element odpowiadający gminie.
+    //Metoda powinna zwracać nową listę obiektów Vote, których lokalizacja odpowiada wskazanemu filtrowi.
+    public static List<Vote> filterByLocation(List<Vote> votes, List<String> location){
+        List<Vote> result = new ArrayList<>();
+        for(Vote vote : votes){
+            boolean matches = true;
+
+            for(int i = 0; i<location.size();i++){
+                if(!vote.getLocation().get(i).equals(location.get(i))){
+                    matches = false;
+                    break;
+                }
+            }
+            if(matches){
+                result.add(vote);
+            }
+        }
+        return result;
+    }
+
+
+
+
+
 
     //Krok 10 W klasie Vote nadpisz metodę toString(), tak aby zwracała napis zawierający w kolejnych liniach imiona i
     //nazwiska kandydatów wraz z ich procentowymi wynikami. Kolejność może być dowolna. Następnie przetestuj
