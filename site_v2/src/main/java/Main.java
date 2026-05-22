@@ -1,3 +1,4 @@
+import auth.AccountManager;
 import database.DatabaseConnection;
 
 import javax.annotation.processing.SupportedSourceVersion;
@@ -8,8 +9,9 @@ public class Main {
         DatabaseConnection db = DatabaseConnection.getInstance();
         try {
             db.connect("/home/student/Dokumenty/oop26/oop26/site_v2/users.db");
-            insert("Jan", "12312");
-            select();
+            //AccountManager.register("Max Verstapen", "tututu,maxvarstapen");
+            //select();
+            System.out.println(AccountManager.authenticate("Max Verstapen","tututu,maxvarstapen"));
             db.disconnect();
         }catch (SQLException e){
             throw new RuntimeException(e);
