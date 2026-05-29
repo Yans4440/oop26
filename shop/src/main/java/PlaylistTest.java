@@ -1,10 +1,11 @@
 import music.Playlist;
 import music.Song;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.IndicativeSentencesGeneration;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.testng.Assert.assertThrows;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 public class PlaylistTest {
