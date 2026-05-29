@@ -26,13 +26,6 @@
             <version>0.10.2</version>
             <scope>complite</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>6.1.0</version>
-            <scope>Test</scope>
-        </dependency>
     </dependencies>
-
 
 </project>
