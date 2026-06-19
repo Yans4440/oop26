@@ -2,6 +2,7 @@ package paddle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,6 +15,9 @@ public class GamePanel extends JPanel {
 
     private final Ball ball;
 
+    private boolean gameStarted = false;
+    private Timer timer;
+
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -23,6 +27,7 @@ public class GamePanel extends JPanel {
 
         Graphicsitem.setCanvasSize(WIDTH, HEIGHT);
         paddle = new Paddle();
+        ball = new Ball();
 
         this.addMouseMotionListener(new MouseMotionListener() {
 
@@ -34,12 +39,29 @@ public class GamePanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent mouseEvent) {
                 paddle.updatePosition(mouseEvent.getX());
-                ball.setInitialPosition(paddle);
+                if(!gameStarted){
+                    ball.setInitialPosition(paddle);
+                }
                 repaint();
             }
+
+
+        });
+        timer = new Timer(10, e->{update();});
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                gameStarted = true;
+                timer.start();
+
+            }
+
+
         });
 
-        ball = new Ball();
+
+
     }
 
     @Override
@@ -50,4 +72,24 @@ public class GamePanel extends JPanel {
         paddle.draw(Graphics2D);
         ball.draw(Graphics2D);
     }
+
+    private void update(){
+        if(gameStarted){
+            ball.move();
+            checkCollision();
+
+            if(ball.isOutBounds()){
+                timer.stop();
+                gameStarted = false;
+            }
+            repaint();
+        }
+    }
+
+    private void checkCollision(){
+        if(ball.getY() + ball.getHeight()/2 >= paddle.getY() && ball.getX() >= paddle.getX() && ball.getX() <= paddle.getX()+ paddle.getWidth()){
+            ball.bounce();
+        };
+    }
+
 }
