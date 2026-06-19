@@ -54,7 +54,7 @@ public class ClientHandler implements Runnable{
                             }
                             String recipient = tokens[1];
                             String privateMessage = String.join(" ", Arrays.copyOfRange(tokens, 2, tokens.length));
-                            server.whisper(recipient, privateMessage, this);
+                            server.whisper(privateMessage, this, recipient);
                         }
                     }
                     continue;

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class Server {
     private ServerSocket serverSocket;
     private HashMap<String, ClientHandler> handlers = new HashMap();
+
     public Server(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
 
@@ -26,24 +27,23 @@ public class Server {
         }
     }
     public void online(ClientHandler sender){
-        String userList = handlers.values().stream().map(ClientHandler::getLogin).collect(Collectors.joining("\n"));
+        String userList = handlers.values().stream()
+                .map(ClientHandler::getLogin)
+                .collect(Collectors.joining("\n"));
         sender.send("Users online: \n"+userList);
     }
+
+    public String signMessage(String message, ClientHandler sender){
+        return String.format("%s: %s",sender.getLogin(), message);
+    }
+    public void whisper(String message, ClientHandler sender, String recipient){
+        handlers.get(recipient).send(signMessage(message, sender));
+    }
+
     public  void broadcast(String message,ClientHandler sender){
         handlers.values().stream().//filter(reciever -> reciever != sender).
-                forEach(handler -> handler.send(message));
+                forEach(handler -> handler.send(signMessage(message,sender)));
     }
 
 
-    //4b
-    public void whisper(String recipient, String message, ClientHandler sender) {
-        ClientHandler receiver = handlers.get(recipient);
-
-        if (receiver == null) {
-            sender.send("User "+ recipient+ " is not online.");
-            return;
-        }
-
-        receiver.send("[private] "+ sender.getLogin()+ ": "+ message);
-    }
 }

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Powtorka/Candidat/Candidat.iml" filepath="$PROJECT_DIR$/Powtorka/Candidat/Candidat.iml" />
       <module fileurl="file://$PROJECT_DIR$/Candidate/Candidate.iml" filepath="$PROJECT_DIR$/Candidate/Candidate.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImgProc/ImgProc.iml" filepath="$PROJECT_DIR$/ImgProc/ImgProc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chat.iml" filepath="$PROJECT_DIR$/chat.iml" />
       <module fileurl="file://$PROJECT_DIR$/death/death.iml" filepath="$PROJECT_DIR$/death/death.iml" />
       <module fileurl="file://$PROJECT_DIR$/genealogy/genealogy.iml" filepath="$PROJECT_DIR$/genealogy/genealogy.iml" />
       <module fileurl="file://$PROJECT_DIR$/powtorka/kol/kol.iml" filepath="$PROJECT_DIR$/powtorka/kol/kol.iml" />

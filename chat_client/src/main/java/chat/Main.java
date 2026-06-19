@@ -25,12 +25,14 @@ public class Main {
             System.exit(2);
         }
         client.send(login);
+        MainWindow window = new MainWindow(login, client);
+        client.setOnMessageReceived(window::appendMessage);
 
         Thread thread = new Thread(client);
         thread.setDaemon(true);
         thread.start();
 
-        MainWindow window = new MainWindow(login, client);
+
         window.setVisible(true);
 
     }
